@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676414220708",
+    "project_id": "pc-world-c9f7b",
+    "storage_bucket": "pc-world-c9f7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676414220708:android:b45b1a8a50cfc80094f931",
+        "android_client_info": {
+          "package_name": "com.example.emart_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCscwh4-f-FC5k7uqJ37rp355J47Nl9JRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
