@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:counter_button/counter_button.dart';
 import 'package:emart_app/consts/colors.dart';
 import 'package:emart_app/consts/consts.dart';
 import 'package:emart_app/firestore_services/firestore_services.dart';
@@ -7,7 +8,7 @@ import 'package:emart_app/widgets_common/our_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
+int counterValue =0; 
 class ItemDetails extends StatefulWidget {
   final String? title;
   final int?  index; 
@@ -19,6 +20,7 @@ class ItemDetails extends StatefulWidget {
 }
 
 class _ItemDetailsState extends State<ItemDetails> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,8 +146,14 @@ class _ItemDetailsState extends State<ItemDetails> {
                                         ),
                                       ),
                                     ),
+                                   
                                      
-                                    
+                                    Row(
+                                      children: [
+                                        'Количество :'.text.size(18).fontFamily(semibold).color(fontGrey).make(),
+                                        Button_Counter(),
+                                      ],
+                                    )
                                   ],
                                 ),
                          );
@@ -172,14 +180,20 @@ class _ItemDetailsState extends State<ItemDetails> {
                                   child: TextButton(
                                     onPressed: ()async {
                                      
-                                      
-                                     
-                                     await   FirestoreServices.addProductToCart(
+                                      if(counterValue != 0 ){
+                                         await   FirestoreServices.addProductToCart(
                                         index: widget.index,
                                         title: widget.title,
+                                        count: counterValue,
 
                                        );
-                                       Get.to(()=>CartScreen());                                           
+                                       Get.to(()=>CartScreen());    
+                                      }
+                                      else{
+                                        VxToast.show(context, msg: 'Укажите количество продукта!');
+                                      }
+                                     
+                                                                           
 
                                     },
                                     child: 
@@ -197,5 +211,37 @@ class _ItemDetailsState extends State<ItemDetails> {
 
             ),
           ));
+  }
+}
+
+
+class Button_Counter extends StatefulWidget {
+  const Button_Counter({super.key});
+
+  @override
+  State<Button_Counter> createState() => _Button_CounterState();
+}
+
+class _Button_CounterState extends State<Button_Counter> {
+  @override
+  void initState() {
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return 
+     CounterButton(
+         loading: false,
+  onChange: (int val) { 
+    setState(() {
+                counterValue = val;
+              });
+    
+  },
+  count:counterValue ,
+  countColor: Colors.purple,
+  buttonColor: Colors.purpleAccent,
+  progressColor: Colors.purpleAccent,
+);
   }
 }

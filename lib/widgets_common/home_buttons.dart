@@ -15,6 +15,6 @@ Widget homeButtons({width,height,icon,String? title,onPress}){
       10.heightBox,
         title!.text.fontFamily(semibold).color(darkFontGrey).make()
       ],),
-    ),
+    ).onTap(onPress)
  ] ).box.rounded.white.size(width, height).shadowSm.make();
 }

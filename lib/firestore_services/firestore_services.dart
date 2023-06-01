@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart_app/consts/consts.dart';
+import 'package:emart_app/views/category_screen/category_screen_details.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class FirestoreServices {
   static getUser(email){
@@ -24,8 +27,10 @@ class FirestoreServices {
     return stream;
     
      }
-
-     static addProductToCart({int? index,String? title}) {
+     getCount(int? count){
+      return count!+1;
+    }
+     static addProductToCart({int? index,String? title, int? count}) {
 
 
     
@@ -38,10 +43,21 @@ docRef.get().then(
    product['cost'] = data['products'][index]['cost'];
    product['seller'] = data ['products'][index]['seller'];
    product['img'] = data['products'][index]['img'];
-   product['count'] = 1;
+   product['count'] = count;
   return product;
 
   },
+
+  
+
+
+
+
+
+
+
+
+
   
 ).then((product) {
    DocumentReference store =   firestore.collection(usersCollection).doc(auth.currentUser!.email);
@@ -76,5 +92,17 @@ static removeProductFromMyCart ({String? name_product}) async {
   List item = products.where((element) => element['name'].contains(name_product))
 .      toList();
   collection.update({'cart': FieldValue.arrayRemove(item)});
+}
+static getTopCategory() async {
+  List  categories =  <String > [];
+await firestore.collection("categories").get().then(
+  (querySnapshot) {
+    for (var docSnapshot in querySnapshot.docs) {
+     categories.add(docSnapshot.id); 
+    }
+  },
+);
+categories.shuffle();
+return categories[0];
 }
 }
